@@ -1,0 +1,34 @@
+backend
+
+	travian map.sql database dockerissa
+		isohko koordinaatisto + muuta informaatiota
+	
+	express server joka updatee map.sql kerran pvä / pyynnöstä
+		
+		
+frontend
+	kirjautuminen
+		leader
+			rekkaa oma liitto
+			voi hallinnoida liiton jäseniä
+			valitsee liitolle uniikin tokenin
+
+		normaali käyttäjä
+			rekisteröityminen vaatii liitto tokenin
+			
+		salasanan vaihto
+
+	pääsivu
+		valikko eri työkaluihin
+			
+			opsu planneri
+				oman liiton offi kylien tagäys 
+				kohteiden valinta
+				laskee välimatkat ja matka-ajat
+				graafinen koordinaatisto
+				kohteet ja omat halutut kylien sijainti kartalle
+
+			liittouma näkymä
+				näyttää oman liittouman pelaajat
+				leaderi mahdollisuus lisätä tagejä omille pelaajille ja vihollisille
+				

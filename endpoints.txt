@@ -1,0 +1,54 @@
+
+
+post / 			lisää uuden rivin x_world taulukkoon
+			bodyyn kaikki tarpeellinen tieto
+			ei palauta
+
+
+		
+
+kirjautuminen
+
+post /register		lisää uusi käyttäjä
+			bodyyn käyttäjänimi, salasana ja allytoken
+			ei palauta
+
+post /login		kirjautuu sisään
+			bodyyn käyttäjänimi, salasana
+			palauttaa auth tokenin?
+
+post /admin		rekisteröi admin käyttäjän
+			bodyyn käyttäjänimi, salasana
+			ei palauta
+
+
+
+työkaluille
+
+get /users/:alliance	hakee kaikki parametrissa määritellyn liiton jäsenet
+			body tyhjä
+			palauttaa listan pelaaja nimet ja id
+
+get /x:y: 		hakee tietyn koordinaatin tiedot
+			body tyhjä
+			palauttaa koordinaatin tiedot objektina
+
+get /players/:tag	hakee kaikki valitun tagin omaavat koordinaatit
+			body tyhjä
+			palauttaa taulukon objekteja
+
+get /players/:player	hakee halutun pelaajan kaikki kylät ja niiden tiedot
+			body tyhjä
+			palauttaa taulukossa pelaajan kaikki kylät, niiden koordinaatit, populaation ja tagit
+
+put /:x:y		päivittää koordinaatille haluttua tietoa
+			bodyssä lisättävät tiedot
+			ei palauta
+
+
+post /:x:y		lisää koordinaatille haluttua tietoa
+			bodyssä lisättävät tiedot
+			ei palauta
+			
+delete /:fieldid	poistaa taulukosta halutut koordinaatit
+
