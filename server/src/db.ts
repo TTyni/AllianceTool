@@ -1,6 +1,5 @@
-import fs, { read } from "fs";
+import fs from "fs";
 import pg from "pg";
-
 
 const { PG_HOST, PG_PORT, PG_USERNAME, PG_PASSWORD, PG_DATABASE } = process.env;
 
@@ -12,15 +11,14 @@ const pool = new pg.Pool({
   database: PG_DATABASE,
 });
 
-
 const readMap = () => {
-
-  const fullFile = fs.readFileSync("./map.sql","utf8");
+  const fullFile = fs.readFileSync("./map.sql", "utf8");
   const convertedFile = fullFile.replaceAll("`", "");
   const allLines = convertedFile.split(/\r\n|\n/);
 
-  allLines.forEach((line) => {executeQuery(line);})
-
+  allLines.forEach((line) => {
+    executeQuery(line);
+  });
 };
 
 const executeQuery = async (query: string, parameters?: Array<any>) => {
