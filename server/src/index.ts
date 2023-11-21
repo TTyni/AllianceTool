@@ -1,7 +1,13 @@
-import express from "express";
+import express, { json, urlencoded } from "express";
 import readMap from "./db.js";
+import dbRouter from "./dbRouter.js";
+import cors from "cors";
 
 const server = express();
+server.use(express.json());
+server.use(express.urlencoded({ extended: false }));
+server.use(cors());
+server.use(dbRouter);
 
 if (false) {
   readMap.readMap();
