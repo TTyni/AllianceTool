@@ -1,4 +1,4 @@
-import executeQuery from "./db.js"
+import executeQuery from "./db.js";
 import * as queries from "./queries.js";
 
 const findAll = async () => {
@@ -14,22 +14,68 @@ const findOne = async (id: string) => {
 };
 
 const findPlayer = async (playerName: string) => {
-  const result = await executeQuery.executeQuery(queries.findPlayer, [playerName]);
+  const result = await executeQuery.executeQuery(queries.findPlayer, [
+    playerName,
+  ]);
   console.log(`Found ${playerName}`);
   return result;
 };
 
 const findAlliance = async (alliance: string) => {
-  const result = await executeQuery.executeQuery(queries.findAlliance, [alliance]);
-  console.log(`Found ${alliance}`);
+  const result = await executeQuery.executeQuery(queries.findAlliance, [
+    alliance,
+  ]);
+  console.log(`Found ${alliance} alliances`);
   return result;
-}
+};
 
 const getAllAlliances = async () => {
   const result = await executeQuery.executeQuery(queries.getAllAlliances);
   console.log(`Found ${result.rows.length}`);
   return result;
-}
+};
 
+const setNewTags = async (fieldID, off, def, target) => {
+  const result = await executeQuery.executeQuery(queries.setNewTags, [
+    fieldID,
+    off,
+    def,
+    target,
+  ]);
+  console.log("New tags set");
+  return result;
+};
 
-export default { findAll, findOne, findPlayer, findAlliance, getAllAlliances };
+const updateTag = async (fieldID, off, def, target) => {
+  const result = await executeQuery.executeQuery(queries.updateTag, [
+    fieldID,
+    off,
+    def,
+    target,
+  ]);
+  console.log("Tags updated");
+  return result;
+};
+const findTags = async (fieldID: string) => {
+  const result = await executeQuery.executeQuery(queries.findTags, [fieldID]);
+  console.log(`Found tags of ${fieldID}`);
+  return result;
+};
+
+const deleteTag = async (fieldID: string) => {
+  const result = await executeQuery.executeQuery(queries.deleteTag, [fieldID]);
+  console.log(`Deleted tags of ${fieldID}`);
+  return result;
+};
+
+export default {
+  findAll,
+  findOne,
+  findPlayer,
+  findAlliance,
+  getAllAlliances,
+  setNewTags,
+  findTags,
+  updateTag,
+  deleteTag,
+};

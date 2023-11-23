@@ -2,3 +2,15 @@
   max-height: 280px;
   overflow-y: auto;
 }
+
+.player-list {
+  margin: 20px;
+  height: 300px;
+  overflow: scroll;
+}
+
+Table thead {
+  position: sticky;
+  top: 0px;
+  margin: 0 0 0 0;
+}
