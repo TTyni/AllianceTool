@@ -8,27 +8,20 @@ backend
 		
 frontend
 	kirjautuminen
-		leader
-			rekkaa oma liitto
-			voi hallinnoida liiton jäseniä
-			valitsee liitolle uniikin tokenin
-
 		normaali käyttäjä
-			rekisteröityminen vaatii liitto tokenin
-			
+			rekisteröityminen
+			kirjautuminen
 		salasanan vaihto
 
 	pääsivu
 		valikko eri työkaluihin
 			
-			opsu planneri
-				oman liiton offi kylien tagäys 
-				kohteiden valinta
+			välimatka laskuri
+				kohteiden valinta tägätyistä kohteista
 				laskee välimatkat ja matka-ajat
-				graafinen koordinaatisto
+				graafinen koordinaatisto?
 				kohteet ja omat halutut kylien sijainti kartalle
 
 			liittouma näkymä
 				näyttää oman liittouman pelaajat
-				leaderi mahdollisuus lisätä tagejä omille pelaajille ja vihollisille
-				
+				mahdollisuus lisätä tagejä kylille

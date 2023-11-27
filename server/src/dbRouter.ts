@@ -28,34 +28,4 @@ dbRouter.get("/alliances/:alliance", async (req, res) => {
   res.status(200).send(result.rows);
 });
 
-dbRouter.post("/tags/:id/:off/:def/:target", async (req, res) => {
-  const result = await dao.setNewTags(
-    req.params.id,
-    req.params.off,
-    req.params.def,
-    req.params.target
-  );
-  res.status(200).send(result);
-});
-
-dbRouter.put("/tags/:id/:off/:def/:target", async (req, res) => {
-  const result = await dao.updateTag(
-    req.params.id,
-    req.params.off,
-    req.params.def,
-    req.params.target
-  );
-  res.status(200).send(result);
-});
-
-dbRouter.get("/tags/:id", async (req, res) => {
-  const result = await dao.findTags(req.params.id);
-  res.status(200).send(result.rows);
-});
-
-dbRouter.delete("/tags/:id", async (req, res) => {
-  const result = await dao.deleteTag(req.params.id);
-  res.status(200).send(result.rows);
-});
-
 export default dbRouter;

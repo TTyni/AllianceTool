@@ -56,9 +56,16 @@ const updateTag = async (fieldID, off, def, target) => {
   console.log("Tags updated");
   return result;
 };
+
 const findTags = async (fieldID: string) => {
   const result = await executeQuery.executeQuery(queries.findTags, [fieldID]);
   console.log(`Found tags of ${fieldID}`);
+  return result;
+};
+
+const findAllTags = async () => {
+  const result = await executeQuery.executeQuery(queries.findAllTags);
+  console.log(`Found all tags`);
   return result;
 };
 
@@ -67,6 +74,8 @@ const deleteTag = async (fieldID: string) => {
   console.log(`Deleted tags of ${fieldID}`);
   return result;
 };
+
+
 
 export default {
   findAll,
@@ -78,4 +87,5 @@ export default {
   findTags,
   updateTag,
   deleteTag,
+  findAllTags,
 };

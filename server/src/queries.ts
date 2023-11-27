@@ -7,7 +7,8 @@ export const update = `
     SET X = $2, Y= $3, tid= $4, vid= $5, villageName= $6, PlayerID= $7, Playername= $8, AllianceID= $9, Alliance= $10, Population= $11, Region= $12, Capital= $13, City= $14, Harbor= $15, VictoryPoints= $16
     WHERE "fieldID" = $1;`;
 
-export const findAll = `SELECT * FROM x_world;`;
+export const findAll = `
+  SELECT * FROM x_world;`;
 
 export const findOne = `
   SELECT * FROM x_world
@@ -33,6 +34,9 @@ export const deleteById = `
 export const findTags = `
   SELECT * FROM tags
     WHERE "fieldID" = $1;`;
+
+export const findAllTags = `
+  SELECT * FROM tags;`;
 
 export const setNewTags = `
   INSERT INTO tags VALUES ($1, $2, $3, $4);`;

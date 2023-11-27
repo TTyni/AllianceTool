@@ -20,17 +20,47 @@ const getPlayerVillages = async (player: string) => {
 };
 
 const insertNewTags = async (
-  fieldID: string,
-  off: string,
-  def: string,
-  target: string
+  fieldID: number,
+  off: boolean,
+  def: boolean,
+  target: boolean
 ) => {
-  const request = axios.post(
-    baseURL + "tags/" + fieldID + "/" + off + "/" + def + "/" + target
-  );
+  const data = { off, def, target };
+  const request = axios.post(baseURL + "tags/" + fieldID, data);
+  const result = await request;
+  //return result.data;
+};
+
+const getAll = async () => {
+  const request = axios.get(baseURL);
   const result = await request;
   return result.data;
 };
 
+const updateTags = async (
+  fieldID: number,
+  off: boolean,
+  def: boolean,
+  target: boolean
+) => {
+  const data = { off, def, target };
+  const request = axios.put(baseURL + "tags/" + fieldID, data);
+  const result = await request;
+  //return result.data;
+};
 
-export default { getAlliance, getPlayerVillages, getAllAlliances, insertNewTags };
+const getAllTags = async () => {
+  const request = axios.get(baseURL + "tags/");
+  const result = await request;
+  return result.data;
+};
+
+export default {
+  getAlliance,
+  getPlayerVillages,
+  getAllAlliances,
+  insertNewTags,
+  updateTags,
+  getAllTags,
+  getAll,
+};

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import allianceServices from "./allianceServices";
 import "./AllianceList.css";
@@ -33,11 +34,36 @@ const AllianceList = () => {
   const searchedPlayers = players.filter((item) =>
     item.Playername.includes(searchQuery)
   );
+  const [tags, setTags] = useState([
+    { fieldID: 0, off: false, def: false, target: false },
+  ]);
+  const [allFields, setAllFields] = useState([
+    {
+      Alliance: "test",
+      AllianceID: 0,
+      Capital: false,
+      City: null,
+      Harbor: null,
+      PlayerID: 0,
+      Playername: "test",
+      Population: 0,
+      Region: null,
+      Tribe: 1,
+      VictoryPoints: null,
+      VillageID: 0,
+      VillageName: "test",
+      X: 0,
+      Y: 0,
+      fieldID: 68,
+    },
+  ]);
 
   useEffect(() => {
     allianceServices
       .getAllAlliances()
       .then((response) => setAlliances(response));
+    getAll();
+    getTags();
   }, []);
 
   const getVillages = (player: string) => {
@@ -46,13 +72,32 @@ const AllianceList = () => {
       .then((response) => setVillages(response));
   };
 
-  const setOffTag = (fieldID) => {
-    allianceServices
-  }
+  const getTags = () => {
+    allianceServices.getAllTags().then((response) => setTags(response));
+  };
 
-  //players.map((player) => getVillages(player.Playername));
+  const tagToggle = (
+    fieldID: number,
+    off: boolean,
+    def: boolean,
+    target: boolean
+  ) => {
+    if (tags.find((tag) => tag.fieldID == fieldID)) {
+      allianceServices.updateTags(fieldID, off, def, target);
+    } else {
+      allianceServices.insertNewTags(fieldID, off, def, target);
+    }
+    console.log("tag test");
+  };
 
-  console.log(villages);
+  const getAll = () => {
+    allianceServices.getAll().then((response) => setAllFields(response));
+  };
+
+  // const test = () => {
+  //   allFields.map((field) => tagToggle(field.fieldID, false, false, false));
+  // };
+
   return (
     <Container>
       <Row>
@@ -91,7 +136,11 @@ const AllianceList = () => {
       />
       <div className="player-list col-4">
         <Table>
-          <thead>player name</thead>
+          <thead>
+            <tr>
+              <td>Playername</td>
+            </tr>
+          </thead>
           <tbody>
             {searchedPlayers.map((player) => (
               <tr>
@@ -113,12 +162,14 @@ const AllianceList = () => {
 
       <Table className="col-3">
         <thead>
-          <td>village name</td>
-          <td>Population</td>
-          <td>coordinates</td>
-          <td>OFF</td>
-          <td>DEF</td>
-          <td>Target</td>
+          <tr>
+            <td>village name</td>
+            <td>Population</td>
+            <td>coordinates</td>
+            <td>OFF</td>
+            <td>DEF</td>
+            <td>Target</td>
+          </tr>
         </thead>
         <tbody>
           {villages.map((village) => (
@@ -129,18 +180,54 @@ const AllianceList = () => {
                 {village.X}|{village.Y}
               </td>
               <td>
-                <Form onChange={() => {}}>
-                  <Form.Check></Form.Check>
+                <Form>
+                  <Form.Check
+                    onChange={() => {
+                      const id = tags.findIndex(
+                        (i) => i.fieldID === village.fieldID
+                      );
+                      tagToggle(
+                        village.fieldID,
+                        !tags[id].off,
+                        tags[id].def,
+                        tags[id].target
+                      );
+                    }}
+                  ></Form.Check>
                 </Form>
               </td>
               <td>
                 <Form>
-                  <Form.Check></Form.Check>
+                  <Form.Check
+                    onChange={() => {
+                      const id = tags.findIndex(
+                        (i) => i.fieldID === village.fieldID
+                      );
+                      tagToggle(
+                        village.fieldID,
+                        tags[id].off,
+                        !tags[id].def,
+                        tags[id].target
+                      );
+                    }}
+                  ></Form.Check>
                 </Form>
               </td>
               <td>
                 <Form>
-                  <Form.Check></Form.Check>
+                  <Form.Check
+                    onChange={() => {
+                      const id = tags.findIndex(
+                        (i) => i.fieldID === village.fieldID
+                      );
+                      tagToggle(
+                        village.fieldID,
+                        tags[id].off,
+                        tags[id].def,
+                        !tags[id].target
+                      );
+                    }}
+                  ></Form.Check>
                 </Form>
               </td>
             </tr>

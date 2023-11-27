@@ -21,6 +21,7 @@ const readMap = () => {
   });
 };
 
+
 const executeQuery = async (query: string, parameters?: Array<any>) => {
   const client = await pool.connect();
   try {
