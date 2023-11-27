@@ -5,6 +5,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+
+
 const LoginForm = () => {
   return (
     <>
@@ -23,13 +25,6 @@ const LoginForm = () => {
                 <Form.Control
                   type="password"
                   placeholder="Enter password"
-                ></Form.Control>
-              </Form.Group>
-
-              <Form.Group className="m-3">
-                <Form.Control
-                  type="allyKey"
-                  placeholder="Enter allykey"
                 ></Form.Control>
               </Form.Group>
 

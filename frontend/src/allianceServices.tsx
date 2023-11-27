@@ -28,7 +28,7 @@ const insertNewTags = async (
   const data = { off, def, target };
   const request = axios.post(baseURL + "tags/" + fieldID, data);
   const result = await request;
-  //return result.data;
+  return result.data;
 };
 
 const getAll = async () => {
@@ -46,7 +46,7 @@ const updateTags = async (
   const data = { off, def, target };
   const request = axios.put(baseURL + "tags/" + fieldID, data);
   const result = await request;
-  //return result.data;
+  return result.data;
 };
 
 const getAllTags = async () => {

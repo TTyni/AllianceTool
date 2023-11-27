@@ -49,3 +49,17 @@ export const updateTag = `
 export const deleteTag = `
   DELETE FROM tags
     WHERE "fieldID" = $1;`;
+
+export const registerUser = `
+  INSERT INTO users values ($1, $2);
+`;
+
+export const getUser = `
+SELECT * FROM users
+WHERE "username" = $1;
+`;
+
+export const updateUser = `
+  UPDATE users
+    SET passwordhash = $2
+    WHERE "username" = $1`;

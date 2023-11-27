@@ -87,7 +87,13 @@ const AllianceList = () => {
     } else {
       allianceServices.insertNewTags(fieldID, off, def, target);
     }
-    console.log("tag test");
+    getTags();
+    console.log(tags);
+  };
+
+  const find = (id) => {
+    const found = tags.find((i) => i.fieldID === id);
+    return found;
   };
 
   const getAll = () => {
@@ -182,6 +188,7 @@ const AllianceList = () => {
               <td>
                 <Form>
                   <Form.Check
+                    defaultChecked={find(village.fieldID)?.off}
                     onChange={() => {
                       const id = tags.findIndex(
                         (i) => i.fieldID === village.fieldID
@@ -199,6 +206,7 @@ const AllianceList = () => {
               <td>
                 <Form>
                   <Form.Check
+                    defaultChecked={find(village.fieldID)?.def}
                     onChange={() => {
                       const id = tags.findIndex(
                         (i) => i.fieldID === village.fieldID
@@ -216,6 +224,7 @@ const AllianceList = () => {
               <td>
                 <Form>
                   <Form.Check
+                    defaultChecked={find(village.fieldID)?.target}
                     onChange={() => {
                       const id = tags.findIndex(
                         (i) => i.fieldID === village.fieldID

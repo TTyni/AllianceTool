@@ -4,13 +4,15 @@ import dbRouter from "./dbRouter.js";
 import cors from "cors";
 import tagRouter from "./tagRouter.js";
 import { logger, unknownEndpoint } from "./middleware.js";
+import userRouter from "./userRouter.js";
 
 const server = express();
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(cors());
 server.use(dbRouter);
-server.use("/tags", tagRouter)
+server.use("/tags", tagRouter);
+server.use("/login", userRouter);
 server.use(logger);
 
 if (false) {
