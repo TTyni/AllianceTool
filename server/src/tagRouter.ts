@@ -20,7 +20,7 @@ tagRouter.get("/:id", async (req, res) => {
   res.status(200).send(result.rows);
 });
 
-tagRouter.get("/", async (req, res) => {
+tagRouter.get("/", async (_req, res) => {
   const result = await dao.findAllTags();
   res.status(200).send(result.rows);
 });
@@ -29,6 +29,7 @@ tagRouter.delete("/:id", async (req, res) => {
   const result = await dao.deleteTag(req.params.id);
   res.status(200).send(result.rows);
 });
+
 
 
 export default tagRouter;

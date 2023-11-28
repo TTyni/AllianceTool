@@ -5,6 +5,7 @@ import cors from "cors";
 import tagRouter from "./tagRouter.js";
 import { logger, unknownEndpoint } from "./middleware.js";
 import userRouter from "./userRouter.js";
+import plannerRouter from "./plannerRouter.js";
 
 const server = express();
 server.use(express.json());
@@ -13,6 +14,7 @@ server.use(cors());
 server.use(dbRouter);
 server.use("/tags", tagRouter);
 server.use("/login", userRouter);
+server.use("/planner", plannerRouter);
 server.use(logger);
 
 if (false) {

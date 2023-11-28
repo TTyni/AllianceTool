@@ -51,15 +51,27 @@ export const deleteTag = `
     WHERE "fieldID" = $1;`;
 
 export const registerUser = `
-  INSERT INTO users values ($1, $2);
-`;
+  INSERT INTO users values ($1, $2);`;
 
 export const getUser = `
-SELECT * FROM users
-WHERE "username" = $1;
-`;
+  SELECT * FROM users
+    WHERE "username" = $1;`;
 
 export const updateUser = `
   UPDATE users
     SET passwordhash = $2
     WHERE "username" = $1`;
+
+export const getTargets = `
+  SELECT *
+    FROM tags
+    LEFT OUTER JOIN x_world
+    ON tags."fieldID" = x_world."fieldID"
+    WHERE "target" IS true;`;
+
+export const getOffs = `
+  SELECT *
+    FROM tags
+    LEFT OUTER JOIN x_world
+    ON tags."fieldID" = x_world."fieldID"
+    WHERE "off" IS true;`;

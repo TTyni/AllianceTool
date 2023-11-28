@@ -7,31 +7,32 @@ import userDao from "./userDao.js";
 const userRouter = Router();
 
 userRouter.post("/register/", async (req, res) => {
-  const { username, pass } = req.body;
-  if (username && pass) {
+  const { username, password } = req.body;
+  if (username && password) {
     const result = await userDao.registerUser(
       username,
-      await argon2.hash(pass)
+      await argon2.hash(password)
     );
-    const token = jwt.sign(username, "test");
+    const token = jwt.sign(username, process.env.SECRET!);
     res.status(200).send(token);
   } else {
     res.status(400).send("params missing");
   }
+
 });
 
-userRouter.post("/login", async (req, res) => {
-  const { username, pass } = req.body;
-  if (username && pass) {
+userRouter.post("/login/", async (req, res) => {
+  const { username, password } = req.body;
+  if (username && password) {
     const found = await userDao.findUser(username);
-    if (await argon2.verify(found[0], pass)) {
-      const token = jwt.sign(req.body.name, "test");
+    if (await argon2.verify(found.rows[0].passwordhash, password)) {
+      const token = jwt.sign(username, process.env.SECRET!);
       res.status(200).send(token);
     } else {
       res.status(401).send({ error: "Unauthorized" });
     }
   } else {
-    res.status(401).send({ error: "Unauthorized" });
+    res.status(401).send({ error: "Missing params" });
   }
 });
 

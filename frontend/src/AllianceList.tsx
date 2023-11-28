@@ -22,7 +22,7 @@ const AllianceList = () => {
       Tribe: 1,
       VictoryPoints: null,
       VillageID: 0,
-      VillageName: "test",
+      Villagename: "test",
       X: 0,
       Y: 0,
       fieldID: 0,
@@ -37,32 +37,32 @@ const AllianceList = () => {
   const [tags, setTags] = useState([
     { fieldID: 0, off: false, def: false, target: false },
   ]);
-  const [allFields, setAllFields] = useState([
-    {
-      Alliance: "test",
-      AllianceID: 0,
-      Capital: false,
-      City: null,
-      Harbor: null,
-      PlayerID: 0,
-      Playername: "test",
-      Population: 0,
-      Region: null,
-      Tribe: 1,
-      VictoryPoints: null,
-      VillageID: 0,
-      VillageName: "test",
-      X: 0,
-      Y: 0,
-      fieldID: 68,
-    },
-  ]);
+  // const [allFields, setAllFields] = useState([
+  //   {
+  //     Alliance: "test",
+  //     AllianceID: 0,
+  //     Capital: false,
+  //     City: null,
+  //     Harbor: null,
+  //     PlayerID: 0,
+  //     Playername: "test",
+  //     Population: 0,
+  //     Region: null,
+  //     Tribe: 1,
+  //     VictoryPoints: null,
+  //     VillageID: 0,
+  //     VillageName: "test",
+  //     X: 0,
+  //     Y: 0,
+  //     fieldID: 68,
+  //   },
+  // ]);
 
   useEffect(() => {
     allianceServices
       .getAllAlliances()
       .then((response) => setAlliances(response));
-    getAll();
+    //getAll();
     getTags();
   }, []);
 
@@ -87,11 +87,11 @@ const AllianceList = () => {
     } else {
       allianceServices.insertNewTags(fieldID, off, def, target);
     }
-    getTags();
-    console.log(tags);
+    //getTags();
+
   };
 
-  const find = (id) => {
+  const find = (id: any) => {
     const found = tags.find((i) => i.fieldID === id);
     return found;
   };
@@ -105,8 +105,9 @@ const AllianceList = () => {
   // };
 
   return (
-    <Container>
+    <Container className="main">
       <Row>
+
         <Dropdown className="m-3">
           <Dropdown.Toggle
             className="btn btn-secondary dropdown-toggle dropdownStyle"
@@ -180,7 +181,7 @@ const AllianceList = () => {
         <tbody>
           {villages.map((village) => (
             <tr>
-              <td className="col-1">{village.VillageName}</td>
+              <td className="col-2">{village.Villagename}</td>
               <td className="col-1">{village.Population}</td>
               <td className="col-1">
                 {village.X}|{village.Y}

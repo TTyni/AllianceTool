@@ -1,5 +1,7 @@
 import { Router } from "express";
 import dao from "./dao.js";
+import { authenticate } from "./middleware.js";
+
 
 const dbRouter = Router();
 
@@ -27,5 +29,6 @@ dbRouter.get("/alliances/:alliance", async (req, res) => {
   const result = await dao.findAlliance(req.params.alliance);
   res.status(200).send(result.rows);
 });
+
 
 export default dbRouter;

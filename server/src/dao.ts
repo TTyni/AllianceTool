@@ -75,6 +75,18 @@ const deleteTag = async (fieldID: string) => {
   return result;
 };
 
+const getTargets = async () => {
+  const result = await executeQuery.executeQuery(queries.getTargets);
+  console.log(`Found ${result.rows.length} results`);
+  return result;
+};
+
+const getOffs = async () => {
+  const result = await executeQuery.executeQuery(queries.getOffs);
+  console.log(`Found ${result.rows.length} results`);
+  return result;
+};
+
 
 
 export default {
@@ -88,4 +100,6 @@ export default {
   updateTag,
   deleteTag,
   findAllTags,
+  getTargets,
+  getOffs
 };

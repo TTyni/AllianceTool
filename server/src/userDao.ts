@@ -4,6 +4,7 @@ import * as queries from "./queries.js";
 const findUser = async (username: any) => {
   const result = await executeQuery.executeQuery(queries.getUser, [username]);
   console.log(`Found ${username}`);
+  console.log(result);
   return result;
 };
 
