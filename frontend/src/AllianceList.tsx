@@ -26,6 +26,9 @@ const AllianceList = () => {
       X: 0,
       Y: 0,
       fieldID: 0,
+      off: false,
+      def: false,
+      target: false,
     },
   ]);
 
@@ -37,6 +40,7 @@ const AllianceList = () => {
   const [tags, setTags] = useState([
     { fieldID: 0, off: false, def: false, target: false },
   ]);
+
   // const [allFields, setAllFields] = useState([
   //   {
   //     Alliance: "test",
@@ -84,21 +88,16 @@ const AllianceList = () => {
   ) => {
     if (tags.find((tag) => tag.fieldID == fieldID)) {
       allianceServices.updateTags(fieldID, off, def, target);
+      getTags();
     } else {
       allianceServices.insertNewTags(fieldID, off, def, target);
+      getTags();
     }
-    //getTags();
-
   };
 
-  const find = (id: any) => {
-    const found = tags.find((i) => i.fieldID === id);
-    return found;
-  };
-
-  const getAll = () => {
-    allianceServices.getAll().then((response) => setAllFields(response));
-  };
+  // const getAll = () => {
+  //   allianceServices.getAll().then((response) => setAllFields(response));
+  // };
 
   // const test = () => {
   //   allFields.map((field) => tagToggle(field.fieldID, false, false, false));
@@ -107,7 +106,6 @@ const AllianceList = () => {
   return (
     <Container className="main">
       <Row>
-
         <Dropdown className="m-3">
           <Dropdown.Toggle
             className="btn btn-secondary dropdown-toggle dropdownStyle"
@@ -189,16 +187,13 @@ const AllianceList = () => {
               <td>
                 <Form>
                   <Form.Check
-                    defaultChecked={find(village.fieldID)?.off}
+                    checked={village.off}
                     onChange={() => {
-                      const id = tags.findIndex(
-                        (i) => i.fieldID === village.fieldID
-                      );
                       tagToggle(
                         village.fieldID,
-                        !tags[id].off,
-                        tags[id].def,
-                        tags[id].target
+                        !village.off,
+                        village.def,
+                        village.target
                       );
                     }}
                   ></Form.Check>
@@ -207,16 +202,13 @@ const AllianceList = () => {
               <td>
                 <Form>
                   <Form.Check
-                    defaultChecked={find(village.fieldID)?.def}
+                    checked={village.def}
                     onChange={() => {
-                      const id = tags.findIndex(
-                        (i) => i.fieldID === village.fieldID
-                      );
                       tagToggle(
                         village.fieldID,
-                        tags[id].off,
-                        !tags[id].def,
-                        tags[id].target
+                        village.off,
+                        !village.def,
+                        village.target
                       );
                     }}
                   ></Form.Check>
@@ -225,16 +217,13 @@ const AllianceList = () => {
               <td>
                 <Form>
                   <Form.Check
-                    defaultChecked={find(village.fieldID)?.target}
+                    checked={village.target}
                     onChange={() => {
-                      const id = tags.findIndex(
-                        (i) => i.fieldID === village.fieldID
-                      );
                       tagToggle(
                         village.fieldID,
-                        tags[id].off,
-                        tags[id].def,
-                        !tags[id].target
+                        village.off,
+                        village.def,
+                        !village.target
                       );
                     }}
                   ></Form.Check>

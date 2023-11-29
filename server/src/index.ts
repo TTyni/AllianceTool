@@ -3,7 +3,7 @@ import readMap from "./db.js";
 import dbRouter from "./dbRouter.js";
 import cors from "cors";
 import tagRouter from "./tagRouter.js";
-import { logger, unknownEndpoint } from "./middleware.js";
+import { errorHandler, logger, unknownEndpoint } from "./middleware.js";
 import userRouter from "./userRouter.js";
 import plannerRouter from "./plannerRouter.js";
 
@@ -27,5 +27,6 @@ server.listen(PORT, () => {
 });
 
 server.use(unknownEndpoint);
+server.use(errorHandler);
 
 export default server;

@@ -15,7 +15,10 @@ export const findOne = `
     WHERE "fieldID" = $1;`;
 
 export const findPlayer = `
-  SELECT * FROM x_world
+  SELECT *
+    FROM tags
+    LEFT OUTER JOIN x_world
+    ON tags."fieldID" = x_world."fieldID"
     WHERE "Playername" = $1;`;
 
 export const findAlliance = `
