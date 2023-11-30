@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { Container, Dropdown, Form, Table } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Form, Row, Table } from "react-bootstrap";
 import plannerServices from "./plannerServices";
 import { Chart } from "react-google-charts";
+import allianceServices from "./allianceServices";
 
 const Planner = () => {
   interface villageTags {
@@ -18,7 +19,7 @@ const Planner = () => {
     Tribe: number;
     VictoryPoints: number | null;
     VillageID: number;
-    Villagename: any;
+    Villagename: string;
     X: number;
     Y: number;
     fieldID: number;
@@ -75,6 +76,30 @@ const Planner = () => {
     },
   ]);
 
+  const [defs, setDefs] = useState<villageTags[]>([
+    {
+      Alliance: "test",
+      AllianceID: 0,
+      Capital: false,
+      City: null,
+      Harbor: null,
+      PlayerID: 0,
+      Playername: "test",
+      Population: 0,
+      Region: null,
+      Tribe: 1,
+      VictoryPoints: null,
+      VillageID: 0,
+      Villagename: "test",
+      X: 0,
+      Y: 0,
+      fieldID: 0,
+      off: false,
+      def: false,
+      target: false,
+    },
+  ]);
+
   const [selectedOff, setSelectedOff] = useState<villageTags>({
     Alliance: "test",
     AllianceID: 0,
@@ -97,9 +122,10 @@ const Planner = () => {
     target: false,
   });
 
-  const [chartData, setChartData] = useState<any>([["X", "Y"]]);
+  const [showMap, setShowMap] = useState(false);
   const [unitSpeed, setUnitSpeed] = useState("3");
   const [tournamentSquareLevel, setTournamentSquareLevel] = useState("1");
+  const [chartData, setChartData] = useState([["X","Y", {'type': 'string', 'role': 'style'}]]);
   // const [options, setOptions] = useState({
   //   mapSize: 401,
   //   artefactMultiplier: 1,
@@ -122,6 +148,14 @@ const Planner = () => {
     return Math.sqrt(x * x + y * y);
   };
 
+
+
+  const resetAllTags = () => {
+    targets.map((tag) => allianceServices.updateTags(tag.fieldID, false, false, false));
+    offs.map((tag) => allianceServices.updateTags(tag.fieldID, false, false, false));
+    defs.map((tag) => allianceServices.updateTags(tag.fieldID, false, false, false));
+  }
+
   const calculateTravelTime = (off: villageTags, target: villageTags) => {
     const dist = calculateDistance(off, target);
     const tournamentSquareEffect = dist - 20;
@@ -138,28 +172,41 @@ const Planner = () => {
   };
 
   const getTargets = () => {
-    plannerServices.getTargets().then((response) => setTargets(response));
+    plannerServices.getTargets()
+    .then((response) => setTargets(response));
   };
 
   const getOffs = () => {
     plannerServices.getOffs().then((response) => setOffs(response));
   };
-
-  const genChartData = () => {
-    targets.map((vil) =>
-      setChartData((chartData: any) => [...chartData, [vil.X, vil.Y]])
-    );
-    console.log(chartData);
+  const getDefs = () => {
+    plannerServices.getDefs().then((response) => setDefs(response));
   };
 
-  useEffect(() => {
+  const genChartData = () => {
+    setChartData([["X", "Y",  {'type': 'string', 'role': 'style'}]])
+    targets.map((vil) =>
+      setChartData((chartData: any) => [...chartData, [vil.X, vil.Y, `point {title: ${vil.VillageID} size: 5; shape-type: point; fill-color: #FF0000; }`]])
+    );
+    offs.map((vil) =>
+    setChartData((chartData: any) => [...chartData, [vil.X, vil.Y, 'point { size: 5; shape-type: point; fill-color: #00FF00; }']])
+    );
+    defs.map((vil) =>
+    setChartData((chartData: any) => [...chartData, [vil.X, vil.Y, 'point { size: 5; shape-type: point; fill-color: #0000FF; }']])
+    );
+  };
+
+  useEffect(()=> {
     getTargets();
     getOffs();
-    //genChartData();
-  }, []);
+    getDefs();
+  },[]);
+
 
   return (
+
     <Container>
+
       <Dropdown className="m-3">
         <Dropdown.Toggle
           className="btn btn-secondary dropdown-toggle dropdownStyle"
@@ -167,7 +214,7 @@ const Planner = () => {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          offs
+          Select village
         </Dropdown.Toggle>
         <Dropdown.Menu>
           {offs.map((off) => (
@@ -175,7 +222,6 @@ const Planner = () => {
               key={off.fieldID}
               onClick={() => {
                 setSelectedOff(off);
-                genChartData();
               }}
             >
               {off.Villagename}
@@ -184,30 +230,45 @@ const Planner = () => {
         </Dropdown.Menu>
       </Dropdown>
 
-      <Container className="col-2 ">
-        <Form.Label htmlFor="unitspeed">Unit speed</Form.Label>
-        <Form.Control
-          defaultValue={3}
-          type="number"
-          id="unitspeed"
-          onChange={(event) => setUnitSpeed(event.target.value)}
-        />
+      <Container>
+        <Row>
+          <Col className="col-2">
+            <Form.Label htmlFor="unitspeed">Unit speed</Form.Label>
+            <Form.Control
+              defaultValue={3}
+              type="number"
+              id="unitspeed"
+              onChange={(event) => setUnitSpeed(event.target.value)}
+            />
 
-        <Form.Label htmlFor="tournamentSquare">
-          tournament square level
-        </Form.Label>
-        <Form.Control
-          defaultValue={0}
-          type="number"
-          id="tournamentSquare"
-          onChange={(event) => setTournamentSquareLevel(event.target.value)}
-        />
+            <Form.Label htmlFor="tournamentSquare">
+              tournament square level
+            </Form.Label>
+            <Form.Control
+              defaultValue={0}
+              type="number"
+              id="tournamentSquare"
+              onChange={(event) => setTournamentSquareLevel(event.target.value)}
+            />
+            <Button
+              className="m-3"
+              onClick={() => {
+                genChartData();
+                setShowMap(!showMap);
+              }}
+            >
+              Show map
+            </Button>
+          </Col>
+        </Row>
+
       </Container>
 
       <Table>
         <thead>
           <tr>
             <td>village name</td>
+            <td>player name</td>
             <td>coordinates</td>
             <td>distance</td>
             <td>travel time</td>
@@ -215,12 +276,15 @@ const Planner = () => {
         </thead>
         <tbody>
           {targets.map((target) => (
-            <tr>
+            <tr key={target.fieldID}>
               <td>{target.Villagename}</td>
+              <td>{target.Playername}</td>
               <td>
-                {target.X}|{target.Y}
+                <a href={`https://ts5.x1.europe.travian.com/karte.php?x=${target.X}&y=${target.Y}`}>{target.X}|{target.Y}</a>
               </td>
-              <td>{calculateDistance(selectedOff, target).toFixed(2)}</td>
+              <td>
+                {calculateDistance(selectedOff, target).toFixed(2)}
+              </td>
               <td>
                 {calculateTravelTime(selectedOff, target).toFixed(2)} hours
               </td>
@@ -229,17 +293,22 @@ const Planner = () => {
         </tbody>
       </Table>
 
-      <Chart
+      <Button variant="warning" onClick={() => resetAllTags()}>Reset all tags</Button>
+
+      {(showMap) ? <Chart
         chartType="ScatterChart"
         data={chartData}
         width={"800px"}
         height={"800px"}
         options={{
           legend: "none",
-          hAxis: { minValue: -200, maxValue: 200 },
-          vAxis: { minValue: -200, maxValue: 200 },
+          hAxis: {title: "X", minValue: -200, maxValue: 200 },
+          vAxis: {title: "Y", minValue: -200, maxValue: 200 },
         }}
-      />
+      />:<></>}
+
+
+
     </Container>
   );
 };

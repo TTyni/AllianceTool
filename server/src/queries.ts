@@ -78,3 +78,11 @@ export const getOffs = `
     LEFT OUTER JOIN x_world
     ON tags."fieldID" = x_world."fieldID"
     WHERE "off" IS true;`;
+
+
+export const getDefs = `
+SELECT *
+  FROM tags
+  LEFT OUTER JOIN x_world
+  ON tags."fieldID" = x_world."fieldID"
+  WHERE "def" IS true;`;

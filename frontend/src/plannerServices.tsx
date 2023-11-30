@@ -14,4 +14,15 @@ const getOffs = async () => {
   return result.data;
 }
 
-export default {getTargets, getOffs};
+const getDefs = async () => {
+  const request = axios.get(baseURL + "/defs");
+  const result = await request;
+  return result.data;
+}
+
+const getAllTags = async () => {
+  const request = axios.get(baseURL + "/allTags");
+  const result = await request;
+  return result.data;
+}
+export default {getTargets, getOffs, getDefs, getAllTags};

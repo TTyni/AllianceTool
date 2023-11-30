@@ -7,8 +7,31 @@ import Container from "react-bootstrap/Container";
 import { Button, Dropdown, Form, Row } from "react-bootstrap";
 
 const AllianceList = () => {
+
+  interface villageTags {
+    Alliance: string;
+    AllianceID: number;
+    Capital: boolean;
+    City: boolean | null;
+    Harbor: boolean | null;
+    PlayerID: number;
+    Playername: string;
+    Population: number;
+    Region: boolean | null;
+    Tribe: number;
+    VictoryPoints: number | null;
+    VillageID: number;
+    Villagename: any;
+    X: number;
+    Y: number;
+    fieldID: number;
+    off: boolean;
+    def: boolean;
+    target: boolean;
+  }
+
   const [players, setPlayers] = useState([{ Playername: "test" }]);
-  const [villages, setVillages] = useState([
+  const [villages, setVillages] = useState<villageTags[]>([
     {
       Alliance: "test",
       AllianceID: 0,
@@ -31,77 +54,50 @@ const AllianceList = () => {
       target: false,
     },
   ]);
-
   const [searchQuery, setsearchQuery] = useState("");
   const [alliances, setAlliances] = useState([{ AllianceID: 0, Alliance: "" }]);
   const searchedPlayers = players.filter((item) =>
     item.Playername.includes(searchQuery)
   );
-  const [tags, setTags] = useState([
-    { fieldID: 0, off: false, def: false, target: false },
-  ]);
 
-  // const [allFields, setAllFields] = useState([
-  //   {
-  //     Alliance: "test",
-  //     AllianceID: 0,
-  //     Capital: false,
-  //     City: null,
-  //     Harbor: null,
-  //     PlayerID: 0,
-  //     Playername: "test",
-  //     Population: 0,
-  //     Region: null,
-  //     Tribe: 1,
-  //     VictoryPoints: null,
-  //     VillageID: 0,
-  //     VillageName: "test",
-  //     X: 0,
-  //     Y: 0,
-  //     fieldID: 68,
-  //   },
-  // ]);
 
   useEffect(() => {
     allianceServices
       .getAllAlliances()
       .then((response) => setAlliances(response));
-    //getAll();
-    getTags();
+
   }, []);
 
-  const getVillages = (player: string) => {
+
+  const getVillages = async (player: string) => {
     allianceServices
       .getPlayerVillages(player)
       .then((response) => setVillages(response));
   };
 
-  const getTags = () => {
-    allianceServices.getAllTags().then((response) => setTags(response));
-  };
 
-  const tagToggle = (
-    fieldID: number,
+  const tagToggle = async (
+    village: villageTags,
     off: boolean,
     def: boolean,
     target: boolean
   ) => {
-    if (tags.find((tag) => tag.fieldID == fieldID)) {
-      allianceServices.updateTags(fieldID, off, def, target);
-      getTags();
+    if (villages.find((tag) => tag.fieldID == village.fieldID)) {
+      allianceServices.updateTags(village.fieldID, off, def, target);
     } else {
-      allianceServices.insertNewTags(fieldID, off, def, target);
-      getTags();
+      allianceServices.insertNewTags(village.fieldID, off, def, target);
     }
+
+    const updatedVillages = villages.map((vil) => {
+      if(vil.fieldID === village.fieldID) {
+          return {...vil, off: off, def, target };
+        }
+        else {
+          return vil;
+        }
+      });
+      setVillages(updatedVillages);
   };
-
-  // const getAll = () => {
-  //   allianceServices.getAll().then((response) => setAllFields(response));
-  // };
-
-  // const test = () => {
-  //   allFields.map((field) => tagToggle(field.fieldID, false, false, false));
-  // };
 
   return (
     <Container className="main">
@@ -113,7 +109,7 @@ const AllianceList = () => {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Dropdown button
+            Select alliance
           </Dropdown.Toggle>
           <Dropdown.Menu>
             {alliances.map((ally) => (
@@ -128,7 +124,6 @@ const AllianceList = () => {
                 {ally.Alliance}
               </Dropdown.Item>
             ))}
-            <Dropdown.Divider />
           </Dropdown.Menu>
         </Dropdown>
       </Row>
@@ -148,7 +143,7 @@ const AllianceList = () => {
           </thead>
           <tbody>
             {searchedPlayers.map((player) => (
-              <tr>
+              <tr key={player.Playername}>
                 <td>{player.Playername}</td>
                 <td>
                   <Button
@@ -165,7 +160,7 @@ const AllianceList = () => {
         </Table>
       </div>
 
-      <Table className="col-3">
+      <Table className="col-3" id="table">
         <thead>
           <tr>
             <td>village name</td>
@@ -178,7 +173,7 @@ const AllianceList = () => {
         </thead>
         <tbody>
           {villages.map((village) => (
-            <tr>
+            <tr key={village.VillageID}>
               <td className="col-2">{village.Villagename}</td>
               <td className="col-1">{village.Population}</td>
               <td className="col-1">
@@ -190,7 +185,7 @@ const AllianceList = () => {
                     checked={village.off}
                     onChange={() => {
                       tagToggle(
-                        village.fieldID,
+                        village,
                         !village.off,
                         village.def,
                         village.target
@@ -205,7 +200,7 @@ const AllianceList = () => {
                     checked={village.def}
                     onChange={() => {
                       tagToggle(
-                        village.fieldID,
+                        village,
                         village.off,
                         !village.def,
                         village.target
@@ -220,7 +215,7 @@ const AllianceList = () => {
                     checked={village.target}
                     onChange={() => {
                       tagToggle(
-                        village.fieldID,
+                        village,
                         village.off,
                         village.def,
                         !village.target

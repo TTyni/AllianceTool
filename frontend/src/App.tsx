@@ -7,18 +7,17 @@ import Planner from "./Planner";
 import { Container } from "react-bootstrap";
 
 function App() {
-  const padding = { padding: 5 };
   return (
     <Container>
-      <Router>
-        <div>
-          <Link style={padding} to="/">
+      <Router >
+        <div className="menu">
+          <Link id="link" to="/">
             Login
           </Link>
-          <Link style={padding} to="/allytool">
+          <Link id="link" to="/allytool">
             ally tool
           </Link>
-          <Link style={padding} to="/planner">
+          <Link id="link" to="/planner">
             Planner
           </Link>
         </div>

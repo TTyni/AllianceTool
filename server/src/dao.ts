@@ -87,6 +87,12 @@ const getOffs = async () => {
   return result;
 };
 
+const getDefs = async () => {
+  const result = await executeQuery.executeQuery(queries.getDefs);
+  console.log(`Found ${result.rows.length} results`);
+  return result;
+};
+
 
 
 export default {
@@ -101,5 +107,6 @@ export default {
   deleteTag,
   findAllTags,
   getTargets,
-  getOffs
+  getOffs,
+  getDefs
 };

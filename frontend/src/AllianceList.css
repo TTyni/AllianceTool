@@ -6,7 +6,7 @@
 .player-list {
   margin: 20px;
   height: 300px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 Table thead {
@@ -15,6 +15,6 @@ Table thead {
   margin: 0 0 0 0;
 }
 
-.main {
-
+#table {
+  border-radius: 10px;
 }
