@@ -5,8 +5,8 @@
 
 .player-list {
   margin: 20px;
-  height: 300px;
-  overflow-y: scroll;
+  height: 500px;
+  overflow-y: auto;
 }
 
 Table thead {

@@ -148,13 +148,11 @@ const Planner = () => {
     return Math.sqrt(x * x + y * y);
   };
 
-
-
   const resetAllTags = () => {
     targets.map((tag) => allianceServices.updateTags(tag.fieldID, false, false, false));
     offs.map((tag) => allianceServices.updateTags(tag.fieldID, false, false, false));
     defs.map((tag) => allianceServices.updateTags(tag.fieldID, false, false, false));
-  }
+  };
 
   const calculateTravelTime = (off: villageTags, target: villageTags) => {
     const dist = calculateDistance(off, target);
@@ -179,6 +177,7 @@ const Planner = () => {
   const getOffs = () => {
     plannerServices.getOffs().then((response) => setOffs(response));
   };
+
   const getDefs = () => {
     plannerServices.getDefs().then((response) => setDefs(response));
   };
@@ -259,12 +258,24 @@ const Planner = () => {
             >
               Show map
             </Button>
+            <Button variant="warning" onClick={() => resetAllTags()}>Reset all tags</Button>
+
           </Col>
-        </Row>
 
-      </Container>
+          <Col >
+          {(showMap) ? <Chart
+        chartType="ScatterChart"
+        data={chartData}
+        width={"800px"}
+        height={"800px"}
+        options={{
+          legend: "none",
+          hAxis: {title: "X", minValue: -200, maxValue: 200 },
+          vAxis: {title: "Y", minValue: -200, maxValue: 200 },
+        }}
+      />:<></>}
 
-      <Table>
+          <Table>
         <thead>
           <tr>
             <td>village name</td>
@@ -292,20 +303,15 @@ const Planner = () => {
           ))}
         </tbody>
       </Table>
+          </Col>
+        </Row>
 
-      <Button variant="warning" onClick={() => resetAllTags()}>Reset all tags</Button>
+      </Container>
 
-      {(showMap) ? <Chart
-        chartType="ScatterChart"
-        data={chartData}
-        width={"800px"}
-        height={"800px"}
-        options={{
-          legend: "none",
-          hAxis: {title: "X", minValue: -200, maxValue: 200 },
-          vAxis: {title: "Y", minValue: -200, maxValue: 200 },
-        }}
-      />:<></>}
+
+
+
+
 
 
 

@@ -4,7 +4,7 @@ import allianceServices from "./allianceServices";
 import "./AllianceList.css";
 import Table from "react-bootstrap/esm/Table";
 import Container from "react-bootstrap/Container";
-import { Button, Dropdown, Form, Row } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, Row } from "react-bootstrap";
 
 const AllianceList = () => {
 
@@ -102,6 +102,7 @@ const AllianceList = () => {
   return (
     <Container className="main">
       <Row>
+        <Col xs={3}>
         <Dropdown className="m-3">
           <Dropdown.Toggle
             className="btn btn-secondary dropdown-toggle dropdownStyle"
@@ -126,21 +127,22 @@ const AllianceList = () => {
             ))}
           </Dropdown.Menu>
         </Dropdown>
+          <Form.Group>
+            <Form.Label htmlFor="Playersearch">Player search</Form.Label>
+            <Form.Control
+              defaultValue=""
+              type="text"
+              id="playersearch"
+              onChange={(e) => setsearchQuery(e.target.value)}
+            />
+          </Form.Group>
+        </Col>
       </Row>
-      <label id="SearchLabel">Search</label>
-      <input
-        className="col-2"
-        type="text"
-        id="searchForm"
-        onChange={(e) => setsearchQuery(e.target.value)}
-      />
-      <div className="player-list col-4">
+
+      <Row>
+        <Col xs={3}>
+        <div className="player-list">
         <Table>
-          <thead>
-            <tr>
-              <td>Playername</td>
-            </tr>
-          </thead>
           <tbody>
             {searchedPlayers.map((player) => (
               <tr key={player.Playername}>
@@ -151,7 +153,7 @@ const AllianceList = () => {
                       getVillages(player.Playername);
                     }}
                   >
-                    Show villages
+                    Show
                   </Button>
                 </td>
               </tr>
@@ -159,7 +161,9 @@ const AllianceList = () => {
           </tbody>
         </Table>
       </div>
+      </Col>
 
+      <Col>
       <Table className="col-3" id="table">
         <thead>
           <tr>
@@ -172,23 +176,23 @@ const AllianceList = () => {
           </tr>
         </thead>
         <tbody>
-          {villages.map((village) => (
-            <tr key={village.VillageID}>
-              <td className="col-2">{village.Villagename}</td>
-              <td className="col-1">{village.Population}</td>
+          {villages.map((vil) => (
+            <tr key={vil.VillageID}>
+              <td className="col-2">{vil.Villagename}</td>
+              <td className="col-1">{vil.Population}</td>
               <td className="col-1">
-                {village.X}|{village.Y}
+                {vil.X}|{vil.Y}
               </td>
               <td>
                 <Form>
                   <Form.Check
-                    checked={village.off}
+                    checked={vil.off}
                     onChange={() => {
                       tagToggle(
-                        village,
-                        !village.off,
-                        village.def,
-                        village.target
+                        vil,
+                        !vil.off,
+                        vil.def,
+                        vil.target
                       );
                     }}
                   ></Form.Check>
@@ -197,13 +201,13 @@ const AllianceList = () => {
               <td>
                 <Form>
                   <Form.Check
-                    checked={village.def}
+                    checked={vil.def}
                     onChange={() => {
                       tagToggle(
-                        village,
-                        village.off,
-                        !village.def,
-                        village.target
+                        vil,
+                        vil.off,
+                        !vil.def,
+                        vil.target
                       );
                     }}
                   ></Form.Check>
@@ -212,13 +216,13 @@ const AllianceList = () => {
               <td>
                 <Form>
                   <Form.Check
-                    checked={village.target}
+                    checked={vil.target}
                     onChange={() => {
                       tagToggle(
-                        village,
-                        village.off,
-                        village.def,
-                        !village.target
+                        vil,
+                        vil.off,
+                        vil.def,
+                        !vil.target
                       );
                     }}
                   ></Form.Check>
@@ -228,6 +232,10 @@ const AllianceList = () => {
           ))}
         </tbody>
       </Table>
+      </Col>
+      </Row>
+
+
     </Container>
   );
 };
