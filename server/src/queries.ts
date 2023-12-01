@@ -79,7 +79,6 @@ export const getOffs = `
     ON tags."fieldID" = x_world."fieldID"
     WHERE "off" IS true;`;
 
-
 export const getDefs = `
 SELECT *
   FROM tags

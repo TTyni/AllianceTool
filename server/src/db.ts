@@ -21,6 +21,45 @@ const readMap = () => {
   });
 };
 
+const createTables = () => {
+  const createMapTable = `
+  CREATE x_world (
+    fieldID integer, 
+    X smallint, 
+    Y smallint, 
+    tid smallint, 
+    vid integer,
+    villagename varchar(255), 
+    PlayerID integer, 
+    playername varchar(255), 
+    AllianceID integer,
+    Alliance varchar(255), 
+    Population integer, 
+    Region varchar(255), 
+    Capital boolean, 
+    City boolean, 
+    Harbor boolean, 
+    VictoryPoints integer
+  );`;
+
+  const createUserTable = `
+  CREATE users (
+    username varchar(255),
+    passwordhash varchar(255)
+  );`;
+
+  const createTagsTable = `
+  CREATE tags (
+    fieldID integer,
+    off boolean,
+    def boolean,
+    target boolean
+  );`;
+
+  executeQuery(createMapTable);
+  executeQuery(createUserTable);
+  executeQuery(createTagsTable);
+};
 
 const executeQuery = async (query: string, parameters?: Array<any>) => {
   const client = await pool.connect();
@@ -36,4 +75,4 @@ const executeQuery = async (query: string, parameters?: Array<any>) => {
   }
 };
 
-export default { readMap, executeQuery };
+export default { readMap, executeQuery, createTables };

@@ -93,8 +93,6 @@ const getDefs = async () => {
   return result;
 };
 
-
-
 export default {
   findAll,
   findOne,
@@ -108,5 +106,5 @@ export default {
   findAllTags,
   getTargets,
   getOffs,
-  getDefs
+  getDefs,
 };

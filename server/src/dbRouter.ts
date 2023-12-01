@@ -2,7 +2,6 @@ import { Router } from "express";
 import dao from "./dao.js";
 import { authenticate } from "./middleware.js";
 
-
 const dbRouter = Router();
 
 dbRouter.get("/", async (_req, res) => {
@@ -11,13 +10,21 @@ dbRouter.get("/", async (_req, res) => {
 });
 
 dbRouter.get("/field/:id", async (req, res) => {
-  const result = await dao.findOne(req.params.id);
-  res.status(200).send(result.rows[0]);
+  if (req.params.id) {
+    const result = await dao.findOne(req.params.id);
+    res.status(200).send(result.rows[0]);
+  } else {
+    res.status(400).send("missing params");
+  }
 });
 
 dbRouter.get("/players/:playerName", async (req, res) => {
-  const result = await dao.findPlayer(req.params.playerName);
-  res.status(200).send(result.rows);
+  if (req.params.playerName) {
+    const result = await dao.findPlayer(req.params.playerName);
+    res.status(200).send(result.rows);
+  } else {
+    res.status(400).send("missing params");
+  }
 });
 
 dbRouter.get("/alliances", async (_req, res) => {
@@ -26,9 +33,12 @@ dbRouter.get("/alliances", async (_req, res) => {
 });
 
 dbRouter.get("/alliances/:alliance", async (req, res) => {
-  const result = await dao.findAlliance(req.params.alliance);
-  res.status(200).send(result.rows);
+  if (req.params.alliance) {
+    const result = await dao.findAlliance(req.params.alliance);
+    res.status(200).send(result.rows);
+  } else {
+    res.status(400).send("missing params");
+  }
 });
-
 
 export default dbRouter;

@@ -17,8 +17,14 @@ server.use("/login", userRouter);
 server.use("/planner", plannerRouter);
 server.use(logger);
 
+//edit to true to read map.sql and insert into database
 if (false) {
   readMap.readMap();
+}
+
+//edit to true to create tables to database
+if (false) {
+  readMap.createTables();
 }
 
 const { PORT } = process.env;
