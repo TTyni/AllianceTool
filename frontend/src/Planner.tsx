@@ -144,6 +144,7 @@ const Planner = () => {
   //   tournamentSquareLevel: 0,
   // });
 
+  // calculates shortest distance.
   const calculateDistance = (off: villageTags, target: villageTags) => {
     const mapSize = 401;
     const x = Math.min(
@@ -158,6 +159,7 @@ const Planner = () => {
     return Math.sqrt(x * x + y * y);
   };
 
+  //toggles all rows and collums in tags table to false
   const resetAllTags = () => {
     targets.map((tag) =>
       allianceServices.updateTags(tag.fieldID, false, false, false)
@@ -170,6 +172,7 @@ const Planner = () => {
     );
   };
 
+  //calculates traveltime with seleceted speed and modifiers
   const calculateTravelTime = (off: villageTags, target: villageTags) => {
     const dist = calculateDistance(off, target);
     const tournamentSquareEffect = dist - 20;
@@ -197,6 +200,7 @@ const Planner = () => {
     plannerServices.getDefs().then((response) => setDefs(response));
   };
 
+  //generates data table for scatter chart
   const genChartData = () => {
     setChartData([["X", "Y", { type: "string", role: "style" }]]);
     targets.map((vil) =>

@@ -11,6 +11,7 @@ const pool = new pg.Pool({
   database: PG_DATABASE,
 });
 
+//fills the main x_world table with data from map.sql
 const readMap = () => {
   const fullFile = fs.readFileSync("./map.sql", "utf8");
   const convertedFile = fullFile.replaceAll("`", "");
@@ -21,6 +22,7 @@ const readMap = () => {
   });
 };
 
+//creates Tables
 const createTables = () => {
   const createMapTable = `
   CREATE x_world (

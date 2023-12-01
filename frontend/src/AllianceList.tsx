@@ -71,6 +71,8 @@ const AllianceList = () => {
       .then((response) => setVillages(response));
   };
 
+
+  //toggle values or insert missing tag to tags table
   const tagToggle = async (
     village: villageTags,
     off: boolean,

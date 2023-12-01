@@ -35,6 +35,7 @@ const getAllAlliances = async () => {
   return result;
 };
 
+//tags maybe move to own file later?
 const setNewTags = async (fieldID, off, def, target) => {
   const result = await executeQuery.executeQuery(queries.setNewTags, [
     fieldID,

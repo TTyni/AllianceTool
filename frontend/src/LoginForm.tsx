@@ -2,30 +2,24 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import loginServices from "./loginServices";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { useState } from "react";
 
-
-
 const LoginForm = () => {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-
   const login = () => {
-    console.log(loginServices.logIn(username,password));
-  }
+    console.log(loginServices.logIn(username, password));
+  };
   const register = () => {
-    loginServices.registerUser(username,password);
-  }
+    loginServices.registerUser(username, password);
+  };
 
   console.log(username);
   console.log(password);
   return (
     <>
-      <Container  >
+      <Container>
         <Form className="login col-3">
           <Form.Group className="m-3">
             <Form.Control
@@ -44,7 +38,9 @@ const LoginForm = () => {
           <Button variant="primary" onClick={() => register()}>
             register
           </Button>
-          <Button variant="secondary" onClick={() => login()}>Login</Button>
+          <Button variant="secondary" onClick={() => login()}>
+            Login
+          </Button>
         </Form>
       </Container>
     </>
