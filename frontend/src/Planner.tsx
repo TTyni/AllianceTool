@@ -161,15 +161,18 @@ const Planner = () => {
 
   //toggles all rows and collums in tags table to false
   const resetAllTags = () => {
-    targets.map((tag) =>
-      allianceServices.updateTags(tag.fieldID, false, false, false)
-    );
-    offs.map((tag) =>
-      allianceServices.updateTags(tag.fieldID, false, false, false)
-    );
-    defs.map((tag) =>
-      allianceServices.updateTags(tag.fieldID, false, false, false)
-    );
+    targets.map((tag) => {
+      allianceServices.updateTags(tag.fieldID, false, false, false);
+      console.log("resetting " + tag.fieldID);
+    });
+    offs.map((tag) => {
+      allianceServices.updateTags(tag.fieldID, false, false, false);
+      console.log("resetting " + tag.fieldID);
+    });
+    defs.map((tag) => {
+      allianceServices.updateTags(tag.fieldID, false, false, false);
+      console.log("resetting " + tag.fieldID);
+    });
   };
 
   //calculates traveltime with seleceted speed and modifiers

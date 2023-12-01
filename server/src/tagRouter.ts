@@ -15,7 +15,7 @@ tagRouter.post("/:id", async (req, res) => {
 
 tagRouter.put("/:id", async (req, res) => {
   const { off, def, target } = req.body;
-  if (off && def && target && req.params.id) {
+  if (req.params.id) {
     const result = await dao.updateTag(req.params.id, off, def, target);
     res.status(200).send(result);
   } else {
