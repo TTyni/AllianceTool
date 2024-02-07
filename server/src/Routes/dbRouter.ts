@@ -1,6 +1,6 @@
 import { Router } from "express";
-import dao from "./dao.js";
-import { authenticate } from "./middleware.js";
+import dao from "../Dao/dao.js";
+import { authenticate } from "../Middlewares/middleware.js";
 
 const dbRouter = Router();
 

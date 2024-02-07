@@ -1,11 +1,15 @@
 import express, { json, urlencoded } from "express";
 import readMap from "./db.js";
-import dbRouter from "./dbRouter.js";
+import dbRouter from "./Routes/dbRouter.js";
 import cors from "cors";
-import tagRouter from "./tagRouter.js";
-import { errorHandler, logger, unknownEndpoint } from "./middleware.js";
-import userRouter from "./userRouter.js";
-import plannerRouter from "./plannerRouter.js";
+import tagRouter from "./Routes/tagRouter.js";
+import {
+  errorHandler,
+  logger,
+  unknownEndpoint,
+} from "./Middlewares/middleware.js";
+import userRouter from "./Routes/userRouter.js";
+import plannerRouter from "./Routes/plannerRouter.js";
 
 const server = express();
 server.use(express.json());

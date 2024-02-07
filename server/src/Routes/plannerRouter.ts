@@ -1,5 +1,5 @@
 import { Router } from "express";
-import dao from "./dao.js";
+import dao from "../Dao/dao.js";
 
 const plannerRouter = Router();
 
@@ -21,6 +21,6 @@ plannerRouter.get("/defs", async (_req, res) => {
 plannerRouter.get("/allTags", async (_req, res) => {
   const result = await dao.findAllTags();
   res.status(200).send(result.rows);
-})
+});
 
 export default plannerRouter;
