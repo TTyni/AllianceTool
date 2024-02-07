@@ -23,6 +23,8 @@ to create needed database tables edit the index.ts file to run the needed functi
 
 ## Planned features
 
+Restructure the folders to make more sense
+
 login and user authentication
 
 player tools
@@ -48,8 +50,10 @@ possibility to have multiple servers at once in database
 
 Page to show and manage users own villages easily.
 
+put the whole thing in docker container and in to the cloud
+
 Discord hooks?
--use tesseract for image text reading
+-use tesseract for image text reading and report incoming attacks automatically?
 
 encrypt troops and tags in database?
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
-import allianceServices from "./allianceServices";
+import allianceServices from "../../Services/allianceServices";
 import "./AllianceList.css";
 import Table from "react-bootstrap/esm/Table";
 import Container from "react-bootstrap/Container";
@@ -70,7 +70,6 @@ const AllianceList = () => {
       .getPlayerVillages(player)
       .then((response) => setVillages(response));
   };
-
 
   //toggle values or insert missing tag to tags table
   const tagToggle = async (

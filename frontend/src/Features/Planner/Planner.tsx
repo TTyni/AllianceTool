@@ -9,9 +9,9 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import plannerServices from "./plannerServices";
+import plannerServices from "../../Services/plannerServices";
 import { Chart } from "react-google-charts";
-import allianceServices from "./allianceServices";
+import allianceServices from "../../Services/allianceServices";
 
 const Planner = () => {
   interface villageTags {
@@ -27,6 +27,21 @@ const Planner = () => {
     Tribe: number;
     VictoryPoints: number | null;
     VillageID: number;
+    Villagename: string;
+    X: number;
+    Y: number;
+    fieldID: number;
+    off: boolean;
+    def: boolean;
+    target: boolean;
+  }
+
+  interface ShortVillageTags {
+    Alliance: string;
+    Capital: boolean;
+    Playername: string;
+    Population: number;
+    Tribe: number;
     Villagename: string;
     X: number;
     Y: number;
@@ -60,20 +75,13 @@ const Planner = () => {
     },
   ]);
 
-  const [offs, setOffs] = useState<villageTags[]>([
+  const [offs, setOffs] = useState<ShortVillageTags[]>([
     {
       Alliance: "test",
-      AllianceID: 0,
       Capital: false,
-      City: null,
-      Harbor: null,
-      PlayerID: 0,
       Playername: "test",
       Population: 0,
-      Region: null,
       Tribe: 1,
-      VictoryPoints: null,
-      VillageID: 0,
       Villagename: "test",
       X: 0,
       Y: 0,
@@ -84,20 +92,13 @@ const Planner = () => {
     },
   ]);
 
-  const [defs, setDefs] = useState<villageTags[]>([
+  const [defs, setDefs] = useState<ShortVillageTags[]>([
     {
       Alliance: "test",
-      AllianceID: 0,
       Capital: false,
-      City: null,
-      Harbor: null,
-      PlayerID: 0,
       Playername: "test",
       Population: 0,
-      Region: null,
       Tribe: 1,
-      VictoryPoints: null,
-      VillageID: 0,
       Villagename: "test",
       X: 0,
       Y: 0,
@@ -108,19 +109,12 @@ const Planner = () => {
     },
   ]);
 
-  const [selectedOff, setSelectedOff] = useState<villageTags>({
+  const [selectedOff, setSelectedOff] = useState<ShortVillageTags>({
     Alliance: "test",
-    AllianceID: 0,
     Capital: false,
-    City: null,
-    Harbor: null,
-    PlayerID: 0,
     Playername: "test",
     Population: 0,
-    Region: null,
     Tribe: 1,
-    VictoryPoints: null,
-    VillageID: 0,
     Villagename: "test",
     X: 0,
     Y: 0,
@@ -145,7 +139,10 @@ const Planner = () => {
   // });
 
   // calculates shortest distance.
-  const calculateDistance = (off: villageTags, target: villageTags) => {
+  const calculateDistance = (
+    off: ShortVillageTags,
+    target: ShortVillageTags
+  ) => {
     const mapSize = 401;
     const x = Math.min(
       Math.abs(off.X - target.X),
@@ -176,7 +173,10 @@ const Planner = () => {
   };
 
   //calculates traveltime with seleceted speed and modifiers
-  const calculateTravelTime = (off: villageTags, target: villageTags) => {
+  const calculateTravelTime = (
+    off: ShortVillageTags,
+    target: ShortVillageTags
+  ) => {
     const dist = calculateDistance(off, target);
     const tournamentSquareEffect = dist - 20;
 

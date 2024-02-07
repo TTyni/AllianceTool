@@ -1,17 +1,15 @@
 import "./App.css";
-import LoginForm from "./LoginForm";
-import AllianceList from "./AllianceList";
+import LoginForm from "./Features/Auth/LoginForm";
+import AllianceList from "./Features/AllianceList/AllianceList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Planner from "./Planner";
+import Planner from "./Features/Planner/Planner";
 import { Container } from "react-bootstrap";
 
 function App() {
   return (
     <Container>
-
-
-      <Router >
+      <Router>
         <div className="menu">
           <Link id="link" to="/">
             Login

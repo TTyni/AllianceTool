@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r dotenv/config ./src/index.ts",
+    "dev": "tsx watch -r dotenv/config ./src/index.ts",
     "start": "node ./dist/index.js",
     "build": "tsc --build"
   },
@@ -20,7 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "line-reader": "^0.4.0",
     "pg": "^8.11.3",
-    "postgres": "^3.4.3"
+    "postgres": "^3.4.3",
+    "tsx": "^4.7.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
