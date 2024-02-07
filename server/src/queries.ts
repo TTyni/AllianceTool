@@ -53,7 +53,11 @@ export const findTags = `
     WHERE "fieldID" = $1;`;
 
 export const findAllTags = `
-  SELECT * FROM tags;`;
+  SELECT *
+    FROM tags
+    LEFT OUTER JOIN x_world
+    ON tags."fieldID" = x_world."fieldID"
+    WHERE "target" IS true OR "off" IS true OR "def" IS true;`;
 
 export const setNewTags = `
   INSERT INTO tags VALUES ($1, $2, $3, $4);`;

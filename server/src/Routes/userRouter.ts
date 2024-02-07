@@ -2,7 +2,7 @@ import { Router } from "express";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import userDao from "./userDao.js";
+import userDao from "../Dao/userDao.js";
 
 const userRouter = Router();
 
@@ -18,7 +18,6 @@ userRouter.post("/register/", async (req, res) => {
   } else {
     res.status(400).send("params missing");
   }
-
 });
 
 userRouter.post("/login/", async (req, res) => {

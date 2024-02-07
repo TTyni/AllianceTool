@@ -1,5 +1,5 @@
-import executeQuery from "./db.js";
-import * as queries from "./queries.js";
+import executeQuery from "../db.js";
+import * as queries from "../queries.js";
 
 const findUser = async (username: any) => {
   const result = await executeQuery.executeQuery(queries.getUser, [username]);

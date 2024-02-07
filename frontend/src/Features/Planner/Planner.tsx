@@ -36,86 +36,23 @@ const Planner = () => {
     target: boolean;
   }
 
-  interface ShortVillageTags {
-    Alliance: string;
-    Capital: boolean;
-    Playername: string;
-    Population: number;
-    Tribe: number;
-    Villagename: string;
-    X: number;
-    Y: number;
-    fieldID: number;
-    off: boolean;
-    def: boolean;
-    target: boolean;
-  }
-
-  const [targets, setTargets] = useState<villageTags[]>([
-    {
-      Alliance: "test",
-      AllianceID: 0,
-      Capital: false,
-      City: null,
-      Harbor: null,
-      PlayerID: 0,
-      Playername: "test",
-      Population: 0,
-      Region: null,
-      Tribe: 1,
-      VictoryPoints: null,
-      VillageID: 0,
-      Villagename: "test",
-      X: 0,
-      Y: 0,
-      fieldID: 0,
-      off: false,
-      def: false,
-      target: false,
-    },
-  ]);
-
-  const [offs, setOffs] = useState<ShortVillageTags[]>([
-    {
-      Alliance: "test",
-      Capital: false,
-      Playername: "test",
-      Population: 0,
-      Tribe: 1,
-      Villagename: "test",
-      X: 0,
-      Y: 0,
-      fieldID: 0,
-      off: false,
-      def: false,
-      target: false,
-    },
-  ]);
-
-  const [defs, setDefs] = useState<ShortVillageTags[]>([
-    {
-      Alliance: "test",
-      Capital: false,
-      Playername: "test",
-      Population: 0,
-      Tribe: 1,
-      Villagename: "test",
-      X: 0,
-      Y: 0,
-      fieldID: 0,
-      off: false,
-      def: false,
-      target: false,
-    },
-  ]);
-
-  const [selectedOff, setSelectedOff] = useState<ShortVillageTags>({
+  const [allTags, setAllTags] = useState<villageTags[]>([]);
+  const [targets, setTargets] = useState<villageTags[]>([]);
+  const [offs, setOffs] = useState<villageTags[]>([]);
+  const [selectedOff, setSelectedOff] = useState<villageTags>({
     Alliance: "test",
+    AllianceID: 0,
     Capital: false,
-    Playername: "test",
+    City: false,
+    Harbor: false,
+    PlayerID: 0,
+    Playername: "",
     Population: 0,
-    Tribe: 1,
-    Villagename: "test",
+    Region: false,
+    Tribe: 0,
+    VictoryPoints: 0,
+    VillageID: 0,
+    Villagename: "",
     X: 0,
     Y: 0,
     fieldID: 0,
@@ -139,10 +76,7 @@ const Planner = () => {
   // });
 
   // calculates shortest distance.
-  const calculateDistance = (
-    off: ShortVillageTags,
-    target: ShortVillageTags
-  ) => {
+  const calculateDistance = (off: villageTags, target: villageTags) => {
     const mapSize = 401;
     const x = Math.min(
       Math.abs(off.X - target.X),
@@ -158,25 +92,14 @@ const Planner = () => {
 
   //toggles all rows and collums in tags table to false
   const resetAllTags = () => {
-    targets.map((tag) => {
-      allianceServices.updateTags(tag.fieldID, false, false, false);
-      console.log("resetting " + tag.fieldID);
-    });
-    offs.map((tag) => {
-      allianceServices.updateTags(tag.fieldID, false, false, false);
-      console.log("resetting " + tag.fieldID);
-    });
-    defs.map((tag) => {
+    allTags.map((tag) => {
       allianceServices.updateTags(tag.fieldID, false, false, false);
       console.log("resetting " + tag.fieldID);
     });
   };
 
   //calculates traveltime with seleceted speed and modifiers
-  const calculateTravelTime = (
-    off: ShortVillageTags,
-    target: ShortVillageTags
-  ) => {
+  const calculateTravelTime = (off: villageTags, target: villageTags) => {
     const dist = calculateDistance(off, target);
     const tournamentSquareEffect = dist - 20;
 
@@ -191,57 +114,54 @@ const Planner = () => {
     }
   };
 
-  const getTargets = () => {
-    plannerServices.getTargets().then((response) => setTargets(response));
+  const getAllTags = () => {
+    plannerServices.getAllTags().then((response) => setAllTags(response));
   };
 
   const getOffs = () => {
     plannerServices.getOffs().then((response) => setOffs(response));
   };
 
-  const getDefs = () => {
-    plannerServices.getDefs().then((response) => setDefs(response));
-  };
-
   //generates data table for scatter chart
   const genChartData = () => {
     setChartData([["X", "Y", { type: "string", role: "style" }]]);
-    targets.map((vil) =>
-      setChartData((chartData: any) => [
-        ...chartData,
-        [
-          vil.X,
-          vil.Y,
-          `point {title: ${vil.VillageID} size: 5; shape-type: point; fill-color: #FF0000; }`,
-        ],
-      ])
-    );
-    offs.map((vil) =>
-      setChartData((chartData: any) => [
-        ...chartData,
-        [
-          vil.X,
-          vil.Y,
-          "point { size: 5; shape-type: point; fill-color: #00FF00; }",
-        ],
-      ])
-    );
-    defs.map((vil) =>
-      setChartData((chartData: any) => [
-        ...chartData,
-        [
-          vil.X,
-          vil.Y,
-          "point { size: 5; shape-type: point; fill-color: #0000FF; }",
-        ],
-      ])
-    );
+    allTags.map((vil) => {
+      if (vil.target)
+        setChartData((chartData: any) => [
+          ...chartData,
+          [
+            vil.X,
+            vil.Y,
+            `point {title: ${vil.VillageID} size: 5; shape-type: point; fill-color: #FF0000; }`,
+          ],
+        ]);
+      if (vil.off)
+        setChartData((chartData: any) => [
+          ...chartData,
+          [
+            vil.X,
+            vil.Y,
+            "point { size: 5; shape-type: point; fill-color: #00FF00; }",
+          ],
+        ]);
+      if (vil.def)
+        setChartData((chartData: any) => [
+          ...chartData,
+          [
+            vil.X,
+            vil.Y,
+            "point { size: 5; shape-type: point; fill-color: #0000FF; }",
+          ],
+        ]);
+    });
+  };
+  const newTargets = () => {
+    setTargets(allTags.filter((village) => village.target));
   };
 
   useEffect(() => {
-    getTargets();
+    getAllTags();
     getOffs();
-    getDefs();
   }, []);
 
   return (
@@ -256,14 +176,15 @@ const Planner = () => {
           Select village
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {offs.map((off) => (
+          {offs.map((vil) => (
             <Dropdown.Item
-              key={off.fieldID}
+              key={vil.fieldID}
               onClick={() => {
-                setSelectedOff(off);
+                setSelectedOff(vil);
+                newTargets();
               }}
             >
-              {off.Villagename}
+              {vil.Villagename}
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>
@@ -342,7 +263,11 @@ const Planner = () => {
                         {target.X}|{target.Y}
                       </a>
                     </td>
-                    <td>{calculateDistance(selectedOff, target).toFixed(2)}</td>
+                    {
+                      <td>
+                        {calculateDistance(selectedOff, target).toFixed(2)}
+                      </td>
+                    }
                     <td>
                       {calculateTravelTime(selectedOff, target).toFixed(2)}{" "}
                       hours
